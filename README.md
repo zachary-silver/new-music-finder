@@ -1,2 +1,2 @@
 # New_Music_Finder
-Python script that pulls JSON data of recently played music off a radio station’s website and compares it to my current and already seen music library and presents a file containing any new songs.
+A Python program to pull JSON data of recently played music off a radio station’s website. Indexes songs and compares them to a local library of seen and saved music. Presents users with a file containing any new songs.
