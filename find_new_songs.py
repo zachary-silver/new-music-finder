@@ -2,20 +2,21 @@ import requests, json, os.path
 
 songList = []
 
-def get_json_list(url):
+def get_json_data(url):
     data = requests.get(url)
     return data.json()
 
-def add_songs(songDataList):
-    for songDataTuple in enumerate(songDataList):
-        song = ("{} - {}".format(songDataTuple[1]['artist'],
-                                 songDataTuple[1]['title']).lower())
+def add_songs(musicData):
+    for songData in enumerate(musicData):
+        song = ("{} - {}".format(songData[1]['artist'],
+                                 songData[1]['title']).lower())
         songList.append(song)
 
 def get_songs(fileName):
     songsDict = {}
 
-    if (not os.path.isfile(fileName)): # create file if it doesn't exist yet
+    # Create file if it doesn't exist yet.
+    if (not os.path.isfile(fileName)):
         fh = open(fileName, 'w')
         fh.close()
 
@@ -28,17 +29,17 @@ def get_songs(fileName):
     return songsDict
 
 def write_new_songs(oldSongsDict, newSongsDict):
-    with open('newsongs.txt', 'a+') as newSongsFile:
+    with open('new_songs.txt', 'a+') as newSongsFile:
         for song in songList:
             if song not in oldSongsDict and song not in newSongsDict:
                 newSongsFile.write("{}\n".format(song))
 
 url = 'https://nowplaying.bbgi.com/WRBQFM/list?limit=100&offset=0'
-songDataList = get_json_list(url)
+musicData = get_json_data(url)
 
-add_songs(songDataList)
+add_songs(musicData)
 
-oldSongsDict = get_songs('songlist.txt')
-newSongsDict = get_songs('newsongs.txt')
+oldSongsDict = get_songs('song_list.txt')
+newSongsDict = get_songs('new_songs.txt')
 
 write_new_songs(oldSongsDict, newSongsDict)
